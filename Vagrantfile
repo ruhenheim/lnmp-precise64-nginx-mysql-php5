@@ -9,15 +9,17 @@ Vagrant.configure("2") do |config|
   # config.vm.network :private_network, ip: "192.168.33.10"
   config.vm.network :forwarded_port, guest: 80, host: 8080
 
-  src_dir = './sandbox/webapp'
+  src_host_dir = './sandbox/webapp'
+  src_guest_dir = '/vagrant_data'
   doc_root = '/vagrant_data'
-  dump_dir = './dump'
-  backup_dir = '/vagrant_backup'
+
+  dump_host_dir = './dump'
+  dump_guest_dir = '/vagrant_backup'
 
   #Developing Code dir.
-  config.vm.synced_folder src_dir, doc_root, :create => true, :owner=> 'vagrant', :group=>'www-data', :extra => 'dmode=775,fmode=775'
+  config.vm.synced_folder src_host_dir, src_guest_dir, :create => true, :owner=> 'vagrant', :group=>'www-data', :extra => 'dmode=775,fmode=775'
   #Data archive dir.(ex, dump file, config file etc...)
-  config.vm.synced_folder dump_dir, backup_dir, :create => true, :owner => 'vagrant', :group => 'vagrant', :extra => 'dmode=775,fmode=755'
+  config.vm.synced_folder dump_host_dir, dump_guest_dir, :create => true, :owner => 'vagrant', :group => 'vagrant', :extra => 'dmode=775,fmode=755'
 
   #berkshelf
   config.berkshelf.enabled = true
